@@ -10,9 +10,14 @@ namespace Part_5___Decisions
         {
             int userAge;
             int hurricaneCatergory;
+            int generatedNumber;
+            int numberGuess;
+            int numberGuess2;
+            Random rng = new Random();
 
-            ///numeric age check
+            ///age group decider
             Console.WriteLine("Please enter your age: ");
+            ///numeric age check
             while (!Int32.TryParse(Console.ReadLine(), out userAge))
             {
                 Console.WriteLine("Please enter a valid age");
@@ -41,18 +46,15 @@ namespace Part_5___Decisions
             }
 
 
+            ///hurricane category reader
             Console.WriteLine("Please enter the huricane category number: ");
-
             ///category integer check
-            while (!Int32.TryParse(Console.ReadLine(), out hurricaneCatergory))
-            {
-                Console.WriteLine("Please enter a valid number according to the saffir-simpson scale. ");
-            }
-            while (hurricaneCatergory <= 0 && hurricaneCatergory >= 6)
+            while (!Int32.TryParse(Console.ReadLine(), out hurricaneCatergory) || hurricaneCatergory <= 0 || hurricaneCatergory >= 6)
             {
                 Console.WriteLine("Please enter a valid number according to the saffir-simpson scale. ");
             }
 
+            ///hurricane category decision maker
             switch (hurricaneCatergory)
             {
                 case 1:
@@ -71,6 +73,49 @@ namespace Part_5___Decisions
                     Console.WriteLine("the winds are currently greater than 155mph, 135kt, 249km/h");
                     break;
 
+            }
+
+
+            ///random divisible 
+            generatedNumber = rng.Next(1, 7);
+            Console.WriteLine(generatedNumber);
+            Console.WriteLine(@"
+I have generated a number from 2-6, please try to guess a higher number 
+than I have chosen, and I will tell you if your number divides into my number.");
+            ///non-numeric check
+            while (!Int32.TryParse(Console.ReadLine(), out numberGuess))
+            {
+                Console.WriteLine("Please enter a numeric value: ");
+            }
+            ///smaller guess than generated number check
+            while (numberGuess < generatedNumber)
+            {
+                Console.WriteLine(@"The number you have chosen is smaller than the number I chose.
+Please try again: ");
+                while (!Int32.TryParse(Console.ReadLine(), out numberGuess))
+                {
+                    Console.WriteLine("Please enter a numeric value: ");
+                }
+            }
+
+            ///divisiblity check
+            if (numberGuess % generatedNumber == 0)
+            {
+                Console.WriteLine("Our numbers are divisible by " + numberGuess / generatedNumber);
+
+                Console.WriteLine("Can you guess the number I picked?: ");
+                if (!Int32.TryParse(Console.ReadLine(), out numberGuess2) || numberGuess2 != generatedNumber)
+                {
+                    Console.WriteLine("incorrect :(");
+                }
+                else
+                {
+                    Console.WriteLine("Correct! very good.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Our numbers are not divisible. :(");
             }
 
             Console.ReadLine();
